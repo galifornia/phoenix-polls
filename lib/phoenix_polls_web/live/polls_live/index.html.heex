@@ -1,0 +1,49 @@
+<h1>Listing Polls</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.polls_index_path(@socket, :index)}>
+    <.live_component
+      module={PhoenixPollsWeb.PollsLive.FormComponent}
+      id={@polls.id || :new}
+      title={@page_title}
+      action={@live_action}
+      polls={@polls}
+      return_to={Routes.polls_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Choices</th>
+      <th>Invited</th>
+      <th>Is public</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="polls">
+    <%= for polls <- @polls_collection do %>
+      <tr id={"polls-#{polls.id}"}>
+        <td><%= polls.title %></td>
+        <td><%= polls.description %></td>
+        <td><%= polls.type %></td>
+        <td><%= polls.choices %></td>
+        <td><%= polls.invited %></td>
+        <td><%= polls.is_public %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.polls_show_path(@socket, :show, polls) %></span>
+          <span><%= live_patch "Edit", to: Routes.polls_index_path(@socket, :edit, polls) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: polls.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Polls", to: Routes.polls_index_path(@socket, :new) %></span>

@@ -1,0 +1,51 @@
+<h1>Show Polls</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.polls_show_path(@socket, :show, @polls)}>
+    <.live_component
+      module={PhoenixPollsWeb.PollsLive.FormComponent}
+      id={@polls.id}
+      title={@page_title}
+      action={@live_action}
+      polls={@polls}
+      return_to={Routes.polls_show_path(@socket, :show, @polls)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @polls.title %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @polls.description %>
+  </li>
+
+  <li>
+    <strong>Type:</strong>
+    <%= @polls.type %>
+  </li>
+
+  <li>
+    <strong>Choices:</strong>
+    <%= @polls.choices %>
+  </li>
+
+  <li>
+    <strong>Invited:</strong>
+    <%= @polls.invited %>
+  </li>
+
+  <li>
+    <strong>Is public:</strong>
+    <%= @polls.is_public %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.polls_show_path(@socket, :edit, @polls), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.polls_index_path(@socket, :index) %></span>
