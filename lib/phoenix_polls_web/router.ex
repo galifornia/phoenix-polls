@@ -17,6 +17,20 @@ defmodule PhoenixPollsWeb.Router do
   scope "/", PhoenixPollsWeb do
     pipe_through :browser
 
+    live "/polls", PollsLive.Index, :index
+    live "/polls/new", PollsLive.Index, :new
+    live "/polls/:id/edit", PollsLive.Index, :edit
+
+    live "/polls/:id", PollsLive.Show, :show
+    live "/polls/:id/show/edit", PollsLive.Show, :edit
+
+    live "/votes", VoteLive.Index, :index
+    live "/votes/new", VoteLive.Index, :new
+    live "/votes/:id/edit", VoteLive.Index, :edit
+
+    live "/votes/:id", VoteLive.Show, :show
+    live "/votes/:id/show/edit", VoteLive.Show, :edit
+
     get "/", PageController, :index
   end
 
